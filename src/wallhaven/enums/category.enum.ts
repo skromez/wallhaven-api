@@ -1,4 +1,4 @@
-export enum Categories {
+export enum CategoriesEnum {
   General = 'general',
   Anime = 'anime',
   People = 'people',

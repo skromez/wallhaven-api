@@ -3,20 +3,20 @@ import {
 } from '@nestjs/common';
 import { WallhavenService } from './wallhaven.service';
 import { ApiQuery } from '@nestjs/swagger';
-import { Categories } from './enums/category.enum';
-import { CategoryQueryInterface } from './interfaces/category-query.interface';
+import { CategoriesEnum } from './enums/category.enum';
+import { FindImagesQueryInterface } from './interfaces/find-images-query.interface';
 
 @Controller()
 export class WallhavenController {
   constructor(private readonly wallhavenService: WallhavenService) {}
 
-  getImageCategory(category: string): string {
+  getCategory(category: string): string {
     switch (category) {
-      case Categories.Anime:
+      case CategoriesEnum.Anime:
         return '010';
-      case Categories.General:
+      case CategoriesEnum.General:
         return '100';
-      case Categories.People:
+      case CategoriesEnum.People:
         return '001';
       default:
         return '111';
@@ -28,7 +28,7 @@ export class WallhavenController {
     return this.wallhavenService.getRandomImage();
   }
 
-  @Get('/category-image')
+  @Get('/find-images')
   @ApiQuery({
     name: 'category',
     type: String,
@@ -47,10 +47,10 @@ export class WallhavenController {
     required: false,
     description: 'Amount of returned images',
   })
-  getCategoryRandomImage(
-    @Query() query: CategoryQueryInterface,
+  findImagesByName(
+    @Query() query: FindImagesQueryInterface,
   ) {
-    const category = this.getImageCategory(query.category)
+    const category = this.getCategory(query.category)
     const { q, limit } = query
     return this.wallhavenService.findImagesByName(category, q, limit);
   }
