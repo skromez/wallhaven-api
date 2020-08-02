@@ -41,11 +41,17 @@ export class WallhavenController {
     required: false,
     description: 'Search params to find certain image (e.g `anime` or `naruto`)',
   })
+  @ApiQuery({
+    name: 'limit',
+    type: Number,
+    required: false,
+    description: 'Amount of returned images',
+  })
   getCategoryRandomImage(
     @Query() query: CategoryQueryInterface,
   ) {
     const category = this.getImageCategory(query.category)
-    const { q } = query
-    return this.wallhavenService.getCategoryRandomImage(category, q);
+    const { q, limit } = query
+    return this.wallhavenService.findImagesByName(category, q, limit);
   }
 }

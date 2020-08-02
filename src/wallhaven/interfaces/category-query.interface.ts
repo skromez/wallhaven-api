@@ -1,4 +1,5 @@
 export interface CategoryQueryInterface {
-  category: string
-  q: string
+  category: string;
+  q: string;
+  limit: number;
 }

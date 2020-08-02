@@ -20,10 +20,12 @@ export class WallhavenService {
       .pipe(map(response => response.data.data[0]));
   }
 
-  getCategoryRandomImage(category: string, q: string): Observable<AxiosResponse<ImageInterface>> {
+  findImagesByName(category: string, q: string = '', limit: number = 5): Observable<AxiosResponse<ImageInterface>> {
     return this.httpService.get(this.apiBaseUrl + `search?q=${q}&categories=${category}010&sorting=toplist`)
       .pipe(
-        map(response => response.data.data[0]),
-      );
+        map(response => {
+            return response.data.data.slice(0, limit);
+          },
+        ));
   }
 }
