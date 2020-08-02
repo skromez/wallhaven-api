@@ -21,10 +21,11 @@ export class WallhavenService {
   }
 
   findImagesByName(category: string, q: string = '', limit: number = 5): Observable<AxiosResponse<ImageInterface>> {
-    return this.httpService.get(this.apiBaseUrl + `search?q=${q}&categories=${category}010&sorting=toplist`)
+    let seed = Math.random().toString(36).substring(7);
+    return this.httpService.get(this.apiBaseUrl + `search?q=${q}&categories=${category}010&sorting=random&seed=${seed}`)
       .pipe(
         map(response => {
-            return response.data.data.slice(0, limit);
+            return response.data.data.filter(image => image.file_size < 10045576 && image.file_size > 200000).slice(0, limit);
           },
         ));
   }
